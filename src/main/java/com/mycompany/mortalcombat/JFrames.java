@@ -10,7 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * Класс с пользовательским интерфейсом.
+ * Главный класс пользовательского интерфейса игры Mortal Kombat. Содержит все
+ * элементы GUI и обработчики событий.
  *
  */
 public class JFrames extends javax.swing.JFrame {
@@ -45,31 +46,24 @@ public class JFrames extends javax.swing.JFrame {
         items[1] = new Items("Большое зелье лечение", 0);
         items[2] = new Items("Крест возрождения", 0);
 
-//попытка исправить вид мешка
         JLabel crossLabel = new JLabel("Крест возрождения, 0 шт (авто-использование)");
         crossLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12));
 
         jPanel7.remove(jRadioButton1);
         jPanel7.remove(jRadioButton2);
-        jPanel7.remove(jRadioButton3); // Убираем старый нечитаемый JRadioButton
+        jPanel7.remove(jRadioButton3);
 
-// 3. Создаем новую панель для списка предметов с ровной сеткой (GridLayout)
         JPanel itemsListPanel = new JPanel();
-// 3 строки, 1 колонка, вертикальный отступ 5 пикселей
         itemsListPanel.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
-        itemsListPanel.setBackground(new java.awt.Color(190, 182, 135)); // Тот же фон
+        itemsListPanel.setBackground(new java.awt.Color(190, 182, 135));
 
-// 4. Добавляем нужные элементы в новую панель
         itemsListPanel.add(jRadioButton1);
         itemsListPanel.add(jRadioButton2);
-        itemsListPanel.add(crossLabel); // Добавляем наш новый читаемый JLabel
+        itemsListPanel.add(crossLabel);
 
-// 5. Настраиваем главную панель jPanel7, чтобы она красиво всё расположила
-// Используем BorderLayout для размещения элементов по областям (север, центр, юг)
         jPanel7.setLayout(new java.awt.BorderLayout(10, 10));
-// Добавляем элементы в нужные места
-        jPanel7.add(jLabel30, java.awt.BorderLayout.NORTH); // Заголовок "Мешок предметов" наверх
-        jPanel7.add(itemsListPanel, java.awt.BorderLayout.CENTER); // Наш ровный список в центр
+        jPanel7.add(jLabel30, java.awt.BorderLayout.NORTH);
+        jPanel7.add(itemsListPanel, java.awt.BorderLayout.CENTER);
         jPanel7.add(jButton9, java.awt.BorderLayout.SOUTH);
     }
 
@@ -855,7 +849,8 @@ public class JFrames extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * метод, создающий JDialog для вводе кол-ва локаций.
+     * Создает диалоговое окно для ввода количества локаций. Устанавливает
+     * начальные настройки видимости элементов.
      */
     private void createLocationsDialod() {
         inputLocationsDialog.setSize(418, 148);
@@ -866,10 +861,11 @@ public class JFrames extends javax.swing.JFrame {
     }
 
     /**
-     * метод, обрабатывающий события нажатия кнопки выбора кол-ва локаций:
-     * показывает диалоговое окно для ввода локаций и активирует игровые кнопки.
+     * Обрабатывает нажатие кнопки "Начать новую игру". Сбрасывает счетчик
+     * локаций, показывает диалог ввода локаций и активирует игровые кнопки.
+     *
+     * @param evt событие нажатия кнопки
      */
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         game.getFight().resetCurrentLocationsCount();
         inputLocNumber.setText("");
@@ -882,7 +878,10 @@ public class JFrames extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * метод действия кнопки атаки.
+     * Обрабатывает действие атаки игрока. Вызывает метод боя и проверяет
+     * состояние кнопок после хода.
+     *
+     * @param evt событие нажатия кнопки атаки
      */
     private void attackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attackBtnActionPerformed
         game.fight.Hit(human, enemy, 1, enemyHPPoints, hpPoints, jDialog1,
@@ -894,7 +893,10 @@ public class JFrames extends javax.swing.JFrame {
 
     }//GEN-LAST:event_attackBtnActionPerformed
     /**
-     * метод действия кнопки защиты.
+     * Обрабатывает действие защиты игрока. Вызывает метод боя и проверяет
+     * состояние кнопок после хода.
+     *
+     * @param evt событие нажатия кнопки защиты
      */
     private void defendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defendBtnActionPerformed
         game.fight.Hit(human, enemy, 0, enemyHPPoints, hpPoints, jDialog1,
@@ -906,7 +908,10 @@ public class JFrames extends javax.swing.JFrame {
     }//GEN-LAST:event_defendBtnActionPerformed
 
     /**
-     * метод, выводящий опции с улучшениями.
+     * Обрабатывает выбор улучшения после достижения нового уровня. Применяет
+     * выбранное улучшение и переходит к следующему раунду.
+     *
+     * @param evt событие нажатия кнопки подтверждения выбора
      */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {
@@ -931,9 +936,8 @@ public class JFrames extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
-     * метод, проверяющий состояние здоровья противника и игрока: если здоровье
-     * одного из них равно нул, переход к новому раунду или выведение финального
-     * окна.
+     * Проверяет состояние здоровья игрока и противника. Отключает или
+     * активирует кнопки в зависимости от состояния боя.
      */
     private void checkAndDisableButtons() {
         if (playerHPProgressBar.getValue() == 0 || enemyHPProgressBar.getValue() == 0) {
@@ -947,7 +951,7 @@ public class JFrames extends javax.swing.JFrame {
     }
 
     /**
-     * метод, определяющий новый раунд или финальный раунд.
+     * Определяет переход к следующему раунду или завершение игры.
      */
     private void proceedToNextRoundOrShowFinal() {
         human.setNewHealth(human.getMaxHealth());
@@ -994,7 +998,11 @@ public class JFrames extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here
     }//GEN-LAST:event_jTextField1ActionPerformed
-
+    /**
+     * Обрабатывает завершение игры и добавление результата в таблицу рекордов.
+     *
+     * @param evt событие нажатия кнопки завершения игры
+     */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
             game.EndGameTop(human, jTextField1, jTable1);
@@ -1004,11 +1012,19 @@ public class JFrames extends javax.swing.JFrame {
         jDialog2.dispose();
         jTextField1.setText("");
     }//GEN-LAST:event_jButton6ActionPerformed
-
+    /**
+     * Закрывает диалоговое окно таблицы рекордов.
+     *
+     * @param evt событие нажатия кнопки закрытия
+     */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jDialog3.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
-
+    /**
+     * Открывает диалоговое окно с таблицей рекордов.
+     *
+     * @param evt событие нажатия кнопки просмотра результатов
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         game.WriteToTable(jTable1);
         jDialog3.pack();
@@ -1016,7 +1032,12 @@ public class JFrames extends javax.swing.JFrame {
         jDialog3.setVisible(true);
         //jDialog3.setBounds(100, 100, 580, 450);
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    /**
+     * Закрывает диалоговое окно завершения игры (для результатов не вошедших в
+     * топ-10).
+     *
+     * @param evt событие нажатия кнопки закрытия
+     */
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jDialog4.dispose();
         jDialog5.setVisible(false);
@@ -1030,7 +1051,9 @@ public class JFrames extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
     /**
-     * метод, применяющий к параметрам игрока параметры выбранного предмета.
+     * Обрабатывает использование предмета из инвентаря.
+     *
+     * @param evt событие нажатия кнопки использования предмета
      */
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         if (jRadioButton1.isSelected()) {
@@ -1048,21 +1071,25 @@ public class JFrames extends javax.swing.JFrame {
         game.change.BagText(items, jRadioButton1, jRadioButton2, jRadioButton3);
     }//GEN-LAST:event_jButton9ActionPerformed
     /**
-     * метод, активирующий кнопку окно с предметами.
+     * Открывает окно с предметами инвентаря.
+     *
+     * @param evt событие нажатия кнопки "Предметы"
      */
     private void itemsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemsBtnActionPerformed
-        //jDialog5.pack();
+
         jDialog5.setBounds(300, 200, 430, 350);
         jDialog5.setLocationRelativeTo(null);
         jDialog5.setVisible(true);
-       
+
     }//GEN-LAST:event_itemsBtnActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         jDialog6.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
     /**
-     * метод для кнопки подтверждения введенного кол-ва локаций.
+     * Обрабатывает подтверждение количества локаций.
+     *
+     * @param evt событие нажатия кнопки подтверждения
      */
     private void confirmCountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCountButtonActionPerformed
 
@@ -1072,27 +1099,22 @@ public class JFrames extends javax.swing.JFrame {
                 throw new IllegalArgumentException();
             }
             inputLocationsDialog.setVisible(false);
-            jFrame1.setVisible(true); // Используйте просто 'true'
-            jFrame1.setLocationRelativeTo(null); // Центрируем окно игры
+            jFrame1.setVisible(true);
+            jFrame1.setLocationRelativeTo(null);
             jFrame1.setSize(1000, 700);
 
-            // 1. Создаем игрока. Внутри этого метода теперь вызывается setEnemyes()
             human = game.NewHuman(playerHPProgressBar);
 
-            // 2. Устанавливаем количество локаций и готовим первую из них
             game.getFight().setLocationsCount(locationsCount);
             game.getFight().prepareLocationAndRounds(game.action, human);
 
-            // 3. Получаем первого врага из подготовленного списка
             enemy = game.getFight().NewRound(human, enemyPicture, playerHPProgressBar, enemyHPProgressBar,
                     enemyName, enemyDamageCount, enemyHPPoints, game.action);
 
-            // 4. Обновляем надпись о локации (теперь со счетчиком 1/N)
             locationLable.setText("Локация №" + game.getFight().getCurrentLocationsCount()
                     + " (Враг " + game.getFight().currentEnemyIndex + "/"
                     + game.getFight().enemiesInLocation.size() + ")");
 
-            // 5. Обновляем все остальные надписи на экране
             game.change.NewRoundTexts(human, enemy, playerHPProgressBar, enemyHPProgressBar,
                     pointCountLabe, expCountLabel, playerLevel, enemyLevel, hpPoints, enemyHPPoints, damageCountLabel,
                     effectLabel, informationLabel, game.fight.i, items, jRadioButton1, jRadioButton2, jRadioButton3);
@@ -1102,34 +1124,6 @@ public class JFrames extends javax.swing.JFrame {
         } catch (IllegalArgumentException exc) {
             JOptionPane.showMessageDialog(rootPane, "Число локаций должно быть целым и положительным", "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-//        try {
-//            int locationsCount = Integer.parseInt(inputLocNumber.getText());
-//            if (locationsCount <= 0) {
-//                throw new IllegalArgumentException();
-//            }
-//            inputLocationsDialog.setVisible(false);
-//            jFrame1.setVisible(rootPaneCheckingEnabled);
-//            jFrame1.setSize(1000, 700);
-//
-//            human = game.NewHuman(playerHPProgressBar);
-//            game.getFight().setLocationsCount(locationsCount);
-//            game.getFight().prepareLocationAndRounds(game.action, human);
-//            //locationLable.setText("Локация №" + game.getFight().getCurrentLocationsCount() + " (Враг " + game.getFight().currentEnemyIndex + "/" + game.getFight().enemiesInLocation.size() + ")");
-//            //enemy = game.NewEnemy(enemyPicture, enemyName, enemyDamageCount, enemyHPPoints, enemyHPProgressBar);
-//            enemy = game.getFight().NewRound(human, enemyPicture, playerHPProgressBar, enemyHPProgressBar,
-//                enemyName, enemyDamageCount, enemyHPPoints, game.action);
-//            locationLable.setText("Локация №" + game.getFight().getCurrentLocationsCount()
-//                + " (Враг " + game.getFight().currentEnemyIndex + "/"
-//                + game.getFight().enemiesInLocation.size() + ")");
-//            game.change.NewRoundTexts(human, enemy, playerHPProgressBar, enemyHPProgressBar,
-//                    pointCountLabe, expCountLabel, playerLevel, enemyLevel, hpPoints, enemyHPPoints, damageCountLabel,
-//                    effectLabel, informationLabel, game.fight.i, items, jRadioButton1, jRadioButton2, jRadioButton3);
-//
-//        } catch (NumberFormatException ex) {
-//            JOptionPane.showMessageDialog(rootPane, "Необходимо ввести целое положительное число - количество локаций.", "Ошибка", JOptionPane.ERROR_MESSAGE);
-//        } catch (IllegalArgumentException exc) {
-//            JOptionPane.showMessageDialog(rootPane, "Число локаций должно быть целым и положительным", "Ошибка", JOptionPane.ERROR_MESSAGE);
-//        }
     }//GEN-LAST:event_confirmCountButtonActionPerformed
 
     private void inputLocNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputLocNumberActionPerformed
@@ -1137,7 +1131,9 @@ public class JFrames extends javax.swing.JFrame {
     }//GEN-LAST:event_inputLocNumberActionPerformed
 
     /**
-     * метод, определяющий действие кнопки дебаффа.
+     * Обрабатывает действие кнопки дебаффа.
+     *
+     * @param evt событие нажатия кнопки дебаффа
      */
     private void debuffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debuffButtonActionPerformed
         game.fight.Hit(human, enemy, 2, enemyHPPoints, hpPoints, jDialog1,
@@ -1153,7 +1149,9 @@ public class JFrames extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseOptionBoxActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Главный метод, запускающий приложение.
+     *
+     * @param args аргументы командной строки
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

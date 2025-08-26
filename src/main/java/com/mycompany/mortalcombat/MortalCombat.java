@@ -1,14 +1,16 @@
 package com.mycompany.mortalcombat;
 
 /**
- * main class.
+ * Главный класс приложения.
  *
+ * @author Мария
  */
 
 public class MortalCombat {
     /**
-     * main метод, инициализирующий начало работы программы.
+     * Главный метод, инициализирующий начало работы программы.
      *
+     * @param args аргументы командной строки
      */
     public static void main(String[] args) {
         JFrames app = new JFrames();

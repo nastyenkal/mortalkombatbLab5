@@ -18,14 +18,13 @@ import javax.swing.JRadioButton;
 /**
  * Класс, реализующий механику боя между игроком и противником.
  *
+ * @author Мария
  */
 public class Fight {
 
-    // игрок и противник
     private Player human;
     private Player enemy;
 
-    //параметры игровых механик
     private ChangeTexts change = new ChangeTexts();
     private int kind_attack[] = {0};
     private int experiences[] = {40, 90, 180, 260, 410};
@@ -35,19 +34,16 @@ public class Fight {
     private int stun = 0;
     private double v = 0.0;
 
-    // счетчики для локаций и уровней
     int locationsCount;
     private int currentLocationsCount = 0;
     private int levelCount;
     private int currentLevelCount;
 
-    //противники на текущей локации
     int currentEnemyIndex = 0;
     ArrayList<Player> enemiesInLocation = new ArrayList<>();
 
     /**
-     * метод, который обрабатывает возможные комбинации ходов во время боя между
-     * игроками
+     * Обрабатывает возможные комбинации ходов во время боя.
      *
      * @param p1 первый игрок
      * @param p2 второй игрок
@@ -157,8 +153,33 @@ public class Fight {
     }
 
     /**
-     * метод, которых обрабатывает возможные комбинации атаки.
+     * Обрабатывает атаку игрока.
      *
+     * @param human игрок
+     * @param enemy противник
+     * @param a тип атаки
+     * @param label метка здоровья противника
+     * @param label2 метка здоровья игрока
+     * @param dialog диалоговое окно окончания раунда
+     * @param label3 метка результата раунда
+     * @param action экземпляр CharacterAction
+     * @param pr1 прогресс-бар здоровья игрока
+     * @param pr2 прогресс-бар здоровья противника
+     * @param dialog1 диалоговое окно победы
+     * @param dialog2 диалоговое окно поражения
+     * @param frame главное окно
+     * @param results список результатов
+     * @param label4 метка победы
+     * @param label5 метка поражения
+     * @param label6 метка информации о ходе
+     * @param label7 метка эффектов
+     * @param label8 метка информации
+     * @param items массив предметов
+     * @param rb радио-кнопка предмета
+     * @param optionBox комбо-бокс выбора улучшения
+     * @param newLevelLabel метка нового уровня
+     * @param pointCountLabe метка очков
+     * @param expCountLabel метка опыта
      */
     public void Hit(Player human, Player enemy, int a, JLabel label,
             JLabel label2, JDialog dialog, JLabel label3, CharacterAction action,
@@ -210,39 +231,34 @@ public class Fight {
                 label7.setText("Вы воскресли");
             }
             if (human.getHealth() <= 0 || enemy.getHealth() <= 0) {
-                // Случай 1: Игрок проиграл. Всегда конец игры.
                 if (human.getHealth() <= 0) {
                     EndFinalRound(((Human) human), action, results, dialog1, dialog2,
                             frame, label4, label5, items);
-                } // Случай 2: Игрок выиграл. Теперь нужно проверить, была ли это финальная победа.
-                else {
+                } else {
                     if (isFinalWinCondition()) {
-                        // Да, это была финальная победа! Сразу показываем финальное окно.
                         EndFinalRound(((Human) human), action, results, dialog1, dialog2,
                                 frame, label4, label5, items);
                     } else {
-                        // Нет, это обычная победа. Показываем промежуточное окно.
                         EndRound(human, enemy, dialog, label3, action, items, optionBox, newLevelLabel, pointCountLabe, expCountLabel);
                     }
                 }
             }
-
-//            if (human.getHealth() <= 0 | enemy.getHealth() <= 0) {
-//                if (levelCount == 0 || human.getHealth() <= 0) {
-//                    EndFinalRound(((Human) human), action, results, dialog1, dialog2,
-//                            frame, label4, label5, items);
-//
-//                } else {
-//                    EndRound(human, enemy, dialog, label3, action, items, optionBox, newLevelLabel, pointCountLabe, expCountLabel);
-//                }
-//            }
         }
     }
 
     /**
-     * метод, победителя в конце раунда, добавляющий предметы по итогам раунда и
-     * поднимающий уровень игрока.
+     * Завершает раунд, определяет победителя и добавляет предметы.
      *
+     * @param human игрок
+     * @param enemy противник
+     * @param dialog диалоговое окно окончания раунда
+     * @param label метка результата
+     * @param action экземпляр CharacterAction
+     * @param items массив предметов
+     * @param optionBox комбо-бокс выбора улучшения
+     * @param newLevelLabel метка нового уровня
+     * @param pointCountLabe метка очков
+     * @param expCountLabel метка опыта
      */
     public void EndRound(Player human, Player enemy, JDialog dialog, JLabel label,
             CharacterAction action, Items[] items, JComboBox optionBox, JLabel newLevelLabel, JLabel pointCountLabe, JLabel expCountLabel) {
@@ -271,7 +287,7 @@ public class Fight {
                 }
 
             }
-        change.updatePointsAndExp(((Human) human), pointCountLabe, expCountLabel);// новое
+            change.updatePointsAndExp(((Human) human), pointCountLabe, expCountLabel);
         } else {
             label.setText(enemy.getName() + " win");
         }
@@ -282,29 +298,32 @@ public class Fight {
     }
 
     /**
-     * метод, заврешающий финальный раунд игры, отображает соответствующее
-     * диалоговое окно с результатом , обновляет очки и проверяет, попал ли
-     * игрок в топ.
+     * Завершает финальный раунд игры.
      *
+     * @param human игрок
+     * @param action экземпляр CharacterAction
+     * @param results список результатов
+     * @param dialog1 диалоговое окно победы
+     * @param dialog2 диалоговое окно поражения
+     * @param frame главное окно
+     * @param label1 метка победы
+     * @param label2 метка поражения
+     * @param items массив предметов
      */
     public void EndFinalRound(Human human, CharacterAction action,
             ArrayList<Result> results, JDialog dialog1, JDialog dialog2, JFrame frame,
             JLabel label1, JLabel label2, Items[] items) {
 
-        // Проверяем, попал ли игрок в топ-10
         boolean top = false;
         if (results.isEmpty() || results.size() < 10) {
             top = true;
         } else {
-            // Проверяем, больше ли очков у игрока, чем у последнего в топе
             if (human.getPoints() > results.get(results.size() - 1).getPoints() || human.getPoints() > results.get(9).getPoints()) {
                 top = true;
             }
         }
 
-        // Разделяем логику для победы и поражения
         if (human.getHealth() > 0) {
-            // --- ЛОГИКА ПОБЕДЫ ---
             human.setWin();
             action.AddPoints(human, action.getEnemyes());
 
@@ -320,9 +339,7 @@ public class Fight {
                 dialog2.setVisible(true);
             }
         } else {
-            // --- ЛОГИКА ПОРАЖЕНИЯ ---
             if (top) {
-                // Даже при поражении игрок может попасть в топ по очкам
                 label1.setText("Вы проиграли");
                 dialog1.pack();
                 dialog1.setLocationRelativeTo(null);
@@ -335,51 +352,11 @@ public class Fight {
             }
         }
 
-        frame.setVisible(false); // Скрываем основное окно, вместо dispose()
+        frame.setVisible(false);
     }
-//    public void EndFinalRound(Human human, CharacterAction action,
-//            ArrayList<Result> results, JDialog dialog1, JDialog dialog2, JFrame frame,
-//            JLabel label1, JLabel label2, Items[] items) {
-//        String text = "Вы проиграли";
-//
-//        if (human.getHealth() > 0) {
-//            human.setWin();
-//            action.AddPoints(human, action.getEnemyes());
-//            text = "Победа на вашей стороне";
-//        }
-//        boolean top = false;
-//        if (results == null) {
-//            top = true;
-//        } else {
-//            int i = 0;
-//            for (int j = 0; j < results.size(); j++) {
-//                if (human.getPoints() < results.get(j).getPoints()) {
-//                    i++;
-//                }
-//            }
-//            if (i < 10) {
-//                top = true;
-//            }
-//        }
-//
-//        if (top) {
-//            dialog1.pack();
-//            dialog1.setLocationRelativeTo(null);
-//            dialog1.setVisible(true);
-//            //dialog1.setBounds(150, 150, 600, 500);
-//            label1.setText(text);
-//        } else {
-//            dialog2.pack();
-//            dialog2.setLocationRelativeTo(null);
-//            dialog2.setVisible(true);
-//            //dialog2.setBounds(150, 150, 470, 360);
-//            label2.setText(text);
-//        }
-//        frame.dispose();
-//    }
 
     /**
-     * Сброс шаблона атак противника
+     * Сбрасывает шаблон атак противника.
      *
      * @return массив с начальным шаблоном атак
      */
@@ -389,63 +366,38 @@ public class Fight {
     }
 
     /**
-     * метод, формирующий новый раунд и создающий врага
+     * Создает новый раунд и создает врага.
      *
-     * @return объект созданного врага
+     * @param human игрок
+     * @param label метка изображения противника
+     * @param pr1 прогресс-бар здоровья игрока
+     * @param pr2 прогресс-бар здоровья противника
+     * @param label2 метка имени противника
+     * @param text метка урона противника
+     * @param label3 метка здоровья противника
+     * @param action экземпляр CharacterAction
+     * @return созданный противник
      */
-//старая версия
-//    public Player NewRound(Player human, JLabel label, JProgressBar pr1,
-//            JProgressBar pr2, JLabel label2, JLabel text, JLabel label3, CharacterAction action) {
-//        this.human = human;
-//
-//        Player enemy1 = null;
-//        if (levelCount == 1) {
-//            enemy = action.ChooseBoss(label, label2, text, label3, human.getLevel(), human);
-//        } else if (levelCount > 1) {
-//
-//            enemy = action.ChooseEnemy(label, label2, text, label3);
-//
-//        }
-//        levelCount--;
-//        pr1.setMaximum(human.getMaxHealth());
-//        pr2.setMaximum(enemy.getMaxHealth());
-//        human.setNewHealth(human.getMaxHealth());
-//        enemy.setNewHealth(enemy.getMaxHealth());
-//        action.HP(human, pr1);
-//        action.HP(enemy, pr2);
-//
-//        if (levelCount == 0) {
-//            prepareLocationAndRounds();
-//        }
-//
-//        return enemy;
-//    }
-
-// Новая, исправленная версия
-    // Замените старый метод на этот
     public Player NewRound(Player human, JLabel label, JProgressBar pr1,
             JProgressBar pr2, JLabel label2, JLabel text, JLabel label3, CharacterAction action) {
         this.human = human;
 
-        // Если враги в локации закончились, готовим новую
         if (currentEnemyIndex >= enemiesInLocation.size()) {
             prepareLocationAndRounds(action, human);
-            // Если и после этого врагов нет - игра окончена
             if (enemiesInLocation.isEmpty()) {
                 return null;
             }
         }
 
-        enemy = enemiesInLocation.get(currentEnemyIndex); // Берем следующего врага из списка
+        enemy = enemiesInLocation.get(currentEnemyIndex);
         currentEnemyIndex++;
 
-        // Отображаем его
         action.displayEnemy(enemy, label, label2, text, label3);
 
         pr1.setMaximum(human.getMaxHealth());
         pr2.setMaximum(enemy.getMaxHealth());
         human.setNewHealth(human.getMaxHealth());
-        enemy.setNewHealth(enemy.getMaxHealth()); // У врага тоже должно быть полное здоровье
+        enemy.setNewHealth(enemy.getMaxHealth());
         action.HP(human, pr1);
         action.HP(enemy, pr2);
 
@@ -453,37 +405,25 @@ public class Fight {
     }
 
     /**
-     * метод, определяющий количество локаций и раундов на игру.
+     * Определяет количество локаций и раундов на игру.
      *
+     * @param action экземпляр CharacterAction
+     * @param human игрок
      */
-// Старая версия
-/*
-public void prepareLocationAndRounds() {
-    if (currentLocationsCount < locationsCount) {
-        currentLocationsCount++;
-        levelCount = (int) (Math.random() * 3) + human.getLevel() + 1;
-    }
-}
-     */
-// Новая, исправленная версия
-    // Замените старый метод на этот
     public void prepareLocationAndRounds(CharacterAction action, Player human) {
         if (currentLocationsCount < locationsCount) {
             currentLocationsCount++;
-            // Определяем количество врагов + 1 босс в конце
             int enemiesCount = (int) (Math.random() * 3) + human.getLevel() + 1;
 
             enemiesInLocation.clear();
             currentEnemyIndex = 0;
 
-            // Создаем обычных врагов, не отображая их
             for (int i = 0; i < enemiesCount; i++) {
                 enemiesInLocation.add(action.createRandomEnemy());
             }
-            // Заменяем последнего врага на босса
             enemiesInLocation.set(enemiesCount - 1, action.createBoss(human));
 
-            levelCount = enemiesInLocation.size(); // Сохраняем общее число врагов
+            levelCount = enemiesInLocation.size();
         } else {
             levelCount = 0;
             enemiesInLocation.clear();
@@ -491,7 +431,7 @@ public void prepareLocationAndRounds() {
     }
 
     /**
-     * геттер, определяющий количество локаций и раундов на игру.
+     * Возвращает текущее количество локаций.
      *
      * @return количество локаций
      */
@@ -500,36 +440,44 @@ public void prepareLocationAndRounds() {
     }
 
     /**
-     * метод для сброса кол-ва локаций на игру
+     * Сбрасывает счетчик локаций.
      */
     public void resetCurrentLocationsCount() {
         this.currentLocationsCount = 0;
     }
 
     /**
-     * сеттер кол-ва локаций на игру.
+     * Устанавливает количество локаций на игру.
      *
+     * @param locationsCount количество локаций
      */
     public void setLocationsCount(int locationsCount) {
         this.locationsCount = locationsCount;
     }
 
     /**
-     * сеттер.
+     * Устанавливает игрока.
      *
+     * @param human игрок
      */
     public void setHuman(Human human) {
         this.human = human;
     }
 
     /**
-     * сеттер.
+     * Устанавливает противника.
      *
+     * @param enemy противник
      */
     public void setEnemy(Player enemy) {
         this.enemy = enemy;
     }
-// новые
+
+    /**
+     * Проверяет условие окончательной победы.
+     *
+     * @return true, если выполнены условия победы
+     */
     public boolean isFinalWinCondition() {
         boolean isLastEnemyInLocation = currentEnemyIndex >= enemiesInLocation.size();
         boolean isLastLocation = currentLocationsCount >= locationsCount;

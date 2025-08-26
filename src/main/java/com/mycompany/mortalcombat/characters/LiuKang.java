@@ -3,13 +3,13 @@ package com.mycompany.mortalcombat.characters;
 import javax.swing.ImageIcon;
 
 /**
- *
- * @author Мария
+ * Класс персонажа Liu Kang.
+ * 
  */
 public class LiuKang extends Player {
     
     /**
-     * Конструктор персонажа LiuKang
+     * Конструктор персонажа LiuKang.
      *
      * @param level уровень персонажа
      * @param health здоровье
@@ -22,7 +22,12 @@ public class LiuKang extends Player {
         java.net.URL picURL = getClass().getResource("/pictures/Liu_Kang.png");
         picture = new ImageIcon(picURL);
     }
-
+    
+    /**
+     * Возвращает имя персонажа.
+     *
+     * @return имя персонажа
+     */
     @Override
     public String getName() {
         return "Liu Kang";
